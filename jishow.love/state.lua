@@ -90,7 +90,7 @@ function State:render()
 	  slide.theme.fg.b,
 	  slide.theme.fg.a
    )
-   love.graphics.print(string.format("%d/%d", self.current_kanji_slide, #self.kanji_slides), 5, 5)
+   love.graphics.print(string.format("%d/%d", self.current_kanji_slide, #self.kanji_slides), self.label_font, 10, 5)
    local padding_x = math.floor(self.width / 4)
    local padding_y = 10
    local text_x, text_y, width, height = print_center(slide.kanji, self.kanji_font, padding_x, self.height / 2 - 20)

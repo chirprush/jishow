@@ -15,6 +15,14 @@ config.themes = {
 	  fg = color(0xffffff),
    },
    {
+	  bg = color(0x282828),
+	  fg = color(0xffffff),
+   },
+   {
+	  bg = color(0xdfdfdf),
+	  fg = color(0x000000),
+   },
+   {
 	  bg = color(0xffffff),
 	  fg = color(0x000000),
    },
