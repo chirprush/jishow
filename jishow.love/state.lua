@@ -29,6 +29,17 @@ end
 
 function State:new_kanji()
    local slide = self.kanji_dict[math.random(#self.kanji_dict)]
+
+   while true do
+	  for i, s in ipairs(self.kanji_slides) do
+		 if slide.kanji == s.kanji then
+			slide = self.kanji_dict[math.random(#self.kanji_dict)]
+			break
+		 end
+	  end
+	  break
+   end
+
    slide.kun = {unpack(slide.kun, 1, self.config.max_length)}
    slide.on = {unpack(slide.on, 1, self.config.max_length)}
    slide.meanings = {unpack(slide.meanings, 1, self.config.max_length)}
