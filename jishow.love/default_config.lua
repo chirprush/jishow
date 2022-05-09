@@ -28,11 +28,13 @@ config.themes = {
    },
 }
 
-config.kanji_delay = 10
+config.autoscroll_delay = 5
+config.timebar_height = 10
 
 config.font = "fonts/NotoRegularJP.otf"
 config.bold_font = "fonts/NotoMediumJP.otf"
 
 config.max_length = 3
+
 
 return config

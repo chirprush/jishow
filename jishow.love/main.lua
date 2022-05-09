@@ -13,6 +13,10 @@ function love.load(args)
    state:load(config)
 end
 
+function love.update(dt)
+   state:update(dt)
+end
+
 function love.keypressed(key, _scancode, _isrepeat)
    state:key(key)
 end

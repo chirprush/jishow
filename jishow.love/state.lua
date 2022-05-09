@@ -17,6 +17,8 @@ function State:load(config)
    )
    self.config = config
 
+   self.autoscroll_cooldown = config.autoscroll_delay
+
    self.kanji_font = love.graphics.newFont(config.font, 120)
    self.label_font = love.graphics.newFont(config.bold_font, 15)
    self.info_font = love.graphics.newFont(config.font, 15)
@@ -46,7 +48,7 @@ function State:new_kanji()
    slide.theme = self.config.themes[math.random(#self.config.themes)]
 
    table.insert(self.kanji_slides, slide)
-   self.current_kanji_slide = self.current_kanji_slide + 1
+   self.current_kanji_slide = #self.kanji_slides
 end
 
 function State:scroll(dir)
@@ -61,12 +63,29 @@ end
 function State:key(key)
    if key == "q" then
 	  love.event.quit()
+   elseif key == "p" then
+	  self.paused = not self.paused
    elseif key == "n" then
+	  self.paused = true
 	  self:new_kanji()
    elseif key == "right" then
+	  self.paused = true
 	  self:scroll(1)
    elseif key == "left" then
+	  self.paused = true
 	  self:scroll(-1)
+   end
+end
+
+function State:update(dt)
+   if self.paused then
+	  self.autoscroll_cooldown = self.config.autoscroll_delay
+	  return
+   end
+   self.autoscroll_cooldown = self.autoscroll_cooldown - dt
+   if self.autoscroll_cooldown < 0 then
+	  self.autoscroll_cooldown = self.config.autoscroll_delay
+	  self:new_kanji()
    end
 end
 
@@ -101,7 +120,20 @@ function State:render()
 	  slide.theme.fg.b,
 	  slide.theme.fg.a
    )
+
+   if not self.paused then
+	  local width = math.floor(self.autoscroll_cooldown / self.config.autoscroll_delay * self.width)
+	  love.graphics.rectangle(
+		 "fill",
+		 self.width - width,
+		 self.height - self.config.timebar_height,
+		 width,
+		 self.config.timebar_height
+	  )
+   end
+
    love.graphics.print(string.format("%d/%d", self.current_kanji_slide, #self.kanji_slides), self.label_font, 10, 5)
+
    local padding_x = math.floor(self.width / 4)
    local padding_y = 10
    local text_x, text_y, width, height = print_center(slide.kanji, self.kanji_font, padding_x, self.height / 2 - 20)
@@ -128,6 +160,7 @@ end
 local state = {
    width = 500,
    height = 300,
+   paused = true,
 }
 
 setmetatable(state, State)
