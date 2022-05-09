@@ -1,0 +1,3 @@
+[submodule "jishow.love/lua-requests"]
+	path = jishow.love/lua-requests
+	url = https://github.com/JakobGreen/lua-requests
