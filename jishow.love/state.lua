@@ -25,21 +25,29 @@ function State:load(config)
 
    self.current_kanji_slide = 0
    self.kanji_slides = {}
-   self.kanji_dict = dict
+   self.kanji_dict = {unpack(dict, 1, 3)}
    self:new_kanji()
 end
 
 function State:new_kanji()
+   if #self.kanji_slides == #self.kanji_dict then
+	  return
+   end
+
    local slide = self.kanji_dict[math.random(#self.kanji_dict)]
 
    while true do
+	  local continue = false
 	  for i, s in ipairs(self.kanji_slides) do
 		 if slide.kanji == s.kanji then
 			slide = self.kanji_dict[math.random(#self.kanji_dict)]
+			continue = true
 			break
 		 end
 	  end
-	  break
+	  if not continue then
+		 break
+	  end
    end
 
    slide.kun = {unpack(slide.kun, 1, self.config.max_length)}
