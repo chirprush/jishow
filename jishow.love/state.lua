@@ -25,7 +25,7 @@ function State:load(config)
 
    self.current_kanji_slide = 0
    self.kanji_slides = {}
-   self.kanji_dict = {unpack(dict, 1, 3)}
+   self.kanji_dict = dict
    self:new_kanji()
 end
 
