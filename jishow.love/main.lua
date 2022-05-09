@@ -6,20 +6,15 @@ function love.load(args)
    if config_file ~= nil and config_file.type == "file" then
 	  local custom_config = dofile("~/.config/jishow/config.lua")
 
-	  local quit = false
-	  for key, _ in pairs(config) do
-		 if custom_config[key] == nil then
-			print(string.format("error: custom config is missing key '%s'"), key)
-			quit = true
-		 end
-	  end
-	  if quit then
-		 love.event.quit()
-	  else
-		 config = custom_config
+	  for key, value in pairs(custom_config) do
+		 config[key] = value
 	  end
    end
    state:load(config)
+end
+
+function love.keypressed(key, _scancode, _isrepeat)
+   state:key(key)
 end
 
 function love.draw()

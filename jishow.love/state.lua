@@ -38,6 +38,27 @@ function State:new_kanji()
    self.current_kanji_slide = self.current_kanji_slide + 1
 end
 
+function State:scroll(dir)
+   self.current_kanji_slide = self.current_kanji_slide + dir
+   if self.current_kanji_slide < 1 then
+	  self.current_kanji_slide = 1
+   elseif self.current_kanji_slide > #self.kanji_slides then
+	  self.current_kanji_slide = #self.kanji_slides
+   end
+end
+
+function State:key(key)
+   if key == "q" then
+	  love.event.quit()
+   elseif key == "n" then
+	  self:new_kanji()
+   elseif key == "right" then
+	  self:scroll(1)
+   elseif key == "left" then
+	  self:scroll(-1)
+   end
+end
+
 local function print_center(text, font, x, y)
    local width = font:getWidth(text)
    local height = font:getHeight()
@@ -47,6 +68,7 @@ local function print_center(text, font, x, y)
    return text_x, text_y, width, height
 end
 
+-- Thanks to: https://love2d.org/forums/viewtopic.php?t=79419
 local function print_wrap(text, font, x, y, wrap)
    local _, lines = font:getWrap(text, wrap)
    local height = #lines * font:getLineHeight() * (font:getAscent() + font:getDescent())
@@ -68,6 +90,7 @@ function State:render()
 	  slide.theme.fg.b,
 	  slide.theme.fg.a
    )
+   love.graphics.print(string.format("%d/%d", self.current_kanji_slide, #self.kanji_slides), 5, 5)
    local padding_x = math.floor(self.width / 4)
    local padding_y = 10
    local text_x, text_y, width, height = print_center(slide.kanji, self.kanji_font, padding_x, self.height / 2 - 20)
