@@ -2,9 +2,19 @@
 
 Jishow is a small little application that lets you browse through some kanji.
 
+![screenshot](assets/ji.png)
+
 ## Dependencies
 
 Firstly, you'll need the [`love2d`](https://love2d.org/) game engine for the graphics. Another optional dependency is is the pip library `grequests` if you want to regenerate the dictionary by running `get_kanji.py`, although this probably won't be necessary.
+
+## Controls
+
+- `q`: Quits the program
+- `p`: Toggles pausing and unpausing the autoscroller
+- `n`: Generates a new card
+- `->`: Scrolls right in the list
+- `<-`: Scrolls left in the list
 
 ## Why?
 
